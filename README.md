@@ -23,6 +23,7 @@ Sau cuộc trò chuyện trong issue #1, bro Hieu Louis đề xuất: "sao bạn
 | [`dem-tu.hls`](vietlen-halis/dem-tu.hls) | `dem` — đếm dòng có nội dung và số từ của file |
 | [`tim-tu.hls`](vietlen-halis/tim-tu.hls) | `tim-dong` — in các dòng chứa từ khóa, kèm số dòng |
 | [`chao-ban-be.hls`](vietlen-halis/chao-ban-be.hls) | lời chào dùng `Option[str]` — dành cho bạn cũ và khách lạ |
+| [`don-dep.hls`](vietlen-halis/don-dep.hls) | `don-dep` — nhân nhận diện tên rác (`ends_with` tra từ mục 8b của SPEC); chưa quét thư mục vì chữ ký `fs_read_dir` chưa ghi rõ trong bảng |
 
 Cú pháp học trực tiếp từ `examples/` và `SPEC.md` của halis-lang. Code chưa chạy qua compiler (chưa cài máy này), nhưng viết theo mẫu chuẩn — pr review từ tác giả thì càng tốt.
 

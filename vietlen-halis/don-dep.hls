@@ -1,0 +1,51 @@
+# don-dep.hls — "don-dep" của Lệnh Việt, phiên bản Halis (nhân nhận diện rác)
+# Khi Lệnh Việt gặp Halis: cùng một tinh thần, một ngôn ngữ khác.
+# API dùng trong file này tra trực tiếp từ SPEC.md của mhieuhonda/halis-lang (v1.0):
+#   - ends_with: có thật, mục "8b. Builtin methods" (str)
+#   - args(), println(), len(): có thật, bảng "8. Builtin functions"
+# Chưa chạy qua compiler (chưa cài ở đây) — viết theo mẫu chuẩn, chờ bro review.
+# Lưu ý trung thực: SPEC có nhắc fs_read_dir (từ Stage 36) nhưng bảng builtin
+# không ghi chữ ký rõ, nên bản này chưa quét thư mục — chỉ nhận diện tên.
+# Chạy: halis run don-dep.hls <ten1> <ten2> ... — in RAC/HONG cho từng tên.
+
+fn la_rac(ten: str) -> bool {
+    # thu muc cache bo di
+    if ten == "__pycache__" { return true }
+    if ten == ".pytest_cache" { return true }
+    if ten == ".mypy_cache" { return true }
+    if ten == ".ruff_cache" { return true }
+    # file rac cua he dieu hanh
+    if ten == ".DS_Store" { return true }
+    if ten == "Thumbs.db" { return true }
+    if ten == "desktop.ini" { return true }
+    # file tam theo duoi
+    if ten.ends_with(".pyc") { return true }
+    if ten.ends_with(".pyo") { return true }
+    if ten.ends_with(".tmp") { return true }
+    if ten.ends_with(".swp") { return true }
+    if ten.ends_with("~") { return true }
+    return false
+}
+
+fn main() -> int uses IO {
+    let a: list[str] = args()
+    if a.len() < 2 {
+        println("cach dung: don-dep <ten-file-hoac-thu-muc> ...")
+        println("in RAC hoac HONG cho tung ten truyen vao")
+        return 1
+    }
+    let mut i: int = 1
+    let mut so_rac: int = 0
+    while i < a.len() {
+        let ten: str = a.get(i)
+        if la_rac(ten) {
+            println(ten + " -> RAC")
+            so_rac = so_rac + 1
+        } else {
+            println(ten + " -> HONG")
+        }
+        i = i + 1
+    }
+    println("tong cong " + so_rac.to_str() + " rac tren " + (a.len() - 1).to_str() + " ten")
+    return 0
+}
