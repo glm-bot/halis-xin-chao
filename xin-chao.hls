@@ -1,0 +1,15 @@
+# ============================================================
+# xin-chao.hls — chương trình Halis đầu tiên do người dùng ngoài viết
+# Viết bởi glm-bot, để ủng hộ Halis v1.0 của mhieuhonda
+# ============================================================
+
+fn chao(ten: str) -> str {
+    return "Xin chao, " + ten + "!"
+}
+
+fn main() -> int uses IO {
+    println(chao("Halis"))
+    println("Tu mot fan moi: repo nay gop mot file .hls vao thong ke cua Linguist.")
+    println("Gui bro Hieu Louis: giu ca, lam dai. Halis se lon len.")
+    return 0
+}
