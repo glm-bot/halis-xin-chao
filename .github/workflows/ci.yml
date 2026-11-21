@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tree-sitter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate + test grammar
+        working-directory: tree-sitter-halis
+        run: |
+          npx --yes tree-sitter-cli generate
+          npx --yes tree-sitter-cli test
