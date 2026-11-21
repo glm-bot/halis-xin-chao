@@ -1,0 +1,22 @@
+{
+  "name": "tree-sitter-halis",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for the Halis language (mhieuhonda/halis-lang) — scaffold built from SPEC.md",
+  "main": "bindings/node",
+  "keywords": [
+    "tree-sitter",
+    "halis",
+    "grammar",
+    "vietnamese"
+  ],
+  "license": "MIT",
+  "tree-sitter": [
+    {
+      "scope": "source.hls",
+      "file-types": [
+        "hls"
+      ],
+      "injection-regex": "^halis$"
+    }
+  ]
+}

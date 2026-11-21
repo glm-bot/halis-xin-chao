@@ -1,0 +1,129 @@
+==================
+Fn với uses clause (SPEC §9)
+==================
+
+fn read_config(path: str) -> str uses Fs {
+    return read_file(path)
+}
+
+---
+
+(source_file
+  (function_definition
+    name: (identifier)
+    (parameter_list
+      (parameter
+        name: (identifier)
+        type: (primitive_type)))
+    return_type: (primitive_type)
+    effects: (uses_clause
+      effect: (identifier))
+    body: (block
+      (return_statement
+        (call_expression
+          function: (identifier)
+          (identifier))))))
+
+==================
+Let mut, while, if, gán
+==================
+
+fn pure_compute(n: int) -> int {
+    let mut s: int = 0
+    let mut i: int = 0
+    while i < n {
+        s = s + i
+        i = i + 1
+    }
+    return s
+}
+
+---
+
+(source_file
+  (function_definition
+    name: (identifier)
+    (parameter_list
+      (parameter
+        name: (identifier)
+        type: (primitive_type)))
+    return_type: (primitive_type)
+    body: (block
+      (let_statement
+        name: (identifier)
+        type: (primitive_type)
+        value: (integer))
+      (let_statement
+        name: (identifier)
+        type: (primitive_type)
+        value: (integer))
+      (while_statement
+        condition: (binary_expression
+          (identifier)
+          (identifier))
+        body: (block
+          (assignment
+            left: (lvalue
+              (identifier))
+            right: (binary_expression
+              (identifier)
+              (identifier)))
+          (assignment
+            left: (lvalue
+              (identifier))
+            right: (binary_expression
+              (identifier)
+              (integer)))))
+      (return_statement
+        (identifier)))))
+
+==================
+Match với enum variant (SPEC §5)
+==================
+
+enum Option[T] { Some(T), None }
+
+fn lay_dau(ds: list[int]) -> int {
+    match ds.first() {
+        Some(x) => x,
+        None => 0,
+    }
+}
+
+---
+
+(source_file
+  (enum_definition
+    name: (identifier)
+    (type_parameters
+      (identifier))
+    (enum_variant
+      name: (identifier)
+      (named_type
+        name: (identifier)))
+    (enum_variant
+      name: (identifier)))
+  (function_definition
+    name: (identifier)
+    (parameter_list
+      (parameter
+        name: (identifier)
+        type: (list_type
+          element: (primitive_type))))
+    return_type: (primitive_type)
+    body: (block
+      (expression_statement
+        (match_expression
+          value: (call_expression
+            function: (field_expression
+              object: (identifier)
+              field: (identifier)))
+          (match_arm
+            pattern: (pattern
+              variant: (identifier)
+              (identifier))
+            value: (identifier))
+          (match_arm
+            pattern: (pattern
+              variant: (identifier))
+            value: (integer)))))))
