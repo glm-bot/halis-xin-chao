@@ -24,6 +24,7 @@ Sau cuộc trò chuyện trong issue #1, bro Hieu Louis đề xuất: "sao bạn
 | [`tim-tu.hls`](vietlen-halis/tim-tu.hls) | `tim-dong` — in các dòng chứa từ khóa, kèm số dòng |
 | [`chao-ban-be.hls`](vietlen-halis/chao-ban-be.hls) | lời chào dùng `Option[str]` — dành cho bạn cũ và khách lạ |
 | [`don-dep.hls`](vietlen-halis/don-dep.hls) | `don-dep` — nhân nhận diện tên rác (`ends_with` tra từ mục 8b của SPEC); chưa quét thư mục vì chữ ký `fs_read_dir` chưa ghi rõ trong bảng |
+| [`doc-so.hls`](vietlen-halis/doc-so.hls) | `doc-so` — đọc số thành chữ: `15 -> mười lăm`, `1000001 -> một triệu lẻ một`; dùng `int()`, `join()` và `%`/`/` của SPEC |
 
 Cú pháp học trực tiếp từ `examples/` và `SPEC.md` của halis-lang. Code chưa chạy qua compiler (chưa cài máy này), nhưng viết theo mẫu chuẩn — pr review từ tác giả thì càng tốt.
 

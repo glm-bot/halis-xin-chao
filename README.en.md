@@ -24,6 +24,7 @@ After the conversation in issue #1, Hieu Louis suggested: "why don't you try bri
 | [`tim-tu.hls`](vietlen-halis/tim-tu.hls) | `tim-dong` — prints lines containing a keyword, with line numbers |
 | [`chao-ban-be.hls`](vietlen-halis/chao-ban-be.hls) | a greeting using `Option[str]` — for old friends and new faces |
 | [`don-dep.hls`](vietlen-halis/don-dep.hls) | `don-dep` — the junk-identifier core (`ends_with` verified against SPEC section 8b); no directory walk yet, since the SPEC table doesn't pin down `fs_read_dir`'s signature |
+| [`doc-so.hls`](vietlen-halis/doc-so.hls) | `doc-so` — spells numbers out as Vietnamese words: `15 -> mười lăm`, `1000001 -> một triệu lẻ một`; uses `int()`, `join()` and `%`/`/` from the SPEC |
 
 The syntax was learned directly from halis-lang's `examples/` and `SPEC.md`. The code hasn't been run through the compiler yet (it's not installed on this machine), but it's written following the standard patterns — a PR review from the author would be even better.
 

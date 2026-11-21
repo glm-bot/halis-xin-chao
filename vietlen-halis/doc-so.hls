@@ -1,0 +1,124 @@
+# doc-so.hls — "doc-so" của Lệnh Việt, phiên bản Halis
+# Khi Lệnh Việt gặp Halis: cùng một tinh thần, một ngôn ngữ khác.
+# API dùng trong file này tra trực tiếp từ SPEC.md của mhieuhonda/halis-lang (v1.0):
+#   - int(), args(), println(), join(): bảng "8. Builtin functions"
+#   - starts_with, slice, len: mục "8b. Builtin methods" (str)
+#   - %, /, +: "7. Arithmetic semantics" — phép chia int có kiểm tra, chia 0 là panic
+#   - "else" nối tiếp được "if" theo grammar: if expr block ("else" (if | block))?
+# Chưa chạy qua compiler (chưa cài ở đây) — viết theo mẫu chuẩn, chờ bro review.
+# Giới hạn trung thực: int() của Halis không hiểu "1.000.001" có dấu chấm,
+# nên bản này nhận số nguyên thuần ("1000001"). Muốn đọc nhiều số thì truyền
+# nhiều tham số: halis run doc-so.hls 15 1000001
+# Chuẩn đọc số giống vietlen doc-so v0.6.0 (42 test): mươi/mốt/tư/lăm, lẻ,
+# nhóm toàn số 0 được bỏ qua, đọc được tới 999.999.999.999.999.999 (triệu tỷ).
+# Chạy: halis run doc-so.hls <so> ... — in "so -> chu" cho từng số.
+
+fn chu_so(n: int) -> str {
+    if n == 0 { return "không" }
+    if n == 1 { return "một" }
+    if n == 2 { return "hai" }
+    if n == 3 { return "ba" }
+    if n == 4 { return "bốn" }
+    if n == 5 { return "năm" }
+    if n == 6 { return "sáu" }
+    if n == 7 { return "bảy" }
+    if n == 8 { return "tám" }
+    return "chín"
+}
+
+# chữ số đơn vị đứng sau "mươi": một biến mốt, bốn biến tư, năm biến lăm
+fn doc_cuoi(o: int, sau_chuc_mot: bool) -> str {
+    if o == 1 {
+        if sau_chuc_mot { return "một" }   # 11 -> mười một (không đọc mốt)
+        return "mốt"                        # 21 -> hai mươi mốt
+    }
+    if o == 4 { return "tư" }               # 24 -> hai mươi tư, 14 -> mười tư
+    if o == 5 { return "lăm" }              # 25 -> hai mươi lăm, 15 -> mười lăm
+    return chu_so(o)
+}
+
+# đọc một nhóm 0..999. dan_dau=true khi đây là nhóm cao nhất của cả số
+# (không thêm "không trăm" vô nghĩa; nhóm toàn số 0 thì caller tự bỏ qua)
+fn doc_nhom(n: int, dan_dau: bool) -> str {
+    let h: int = n / 100
+    let du: int = n % 100
+    let t: int = du / 10
+    let o: int = du % 10
+    let phan: list[str] = []
+
+    # phần trăm
+    if h > 0 {
+        phan.push(chu_so(h))
+        phan.push("trăm")
+    } else {
+        if !dan_dau {
+            if t > 0 { phan.push("không trăm") }   # 2010 -> hai nghìn không trăm mười
+        }
+    }
+
+    # phần chục — đơn vị
+    if t == 0 {
+        if o > 0 {
+            if h > 0 || !dan_dau {
+                phan.push("lẻ")                    # 105 -> một trăm lẻ năm; 52001 -> ...nghìn lẻ một
+            }
+            phan.push(chu_so(o))
+        }
+    } else {
+        if t == 1 {
+            phan.push("mười")
+            if o > 0 { phan.push(doc_cuoi(o, true)) }
+        } else {
+            phan.push(chu_so(t))
+            phan.push("mươi")
+            if o > 0 { phan.push(doc_cuoi(o, false)) }
+        }
+    }
+    return join(phan, " ")
+}
+
+# chia số thành các nhóm 3 chữ số từ phải sang, đọc kèm đơn vị nhóm
+fn doc_so(n: int) -> str {
+    if n == 0 { return "không" }
+    let mut con: int = n
+    let cac_nhom: list[int] = []
+    while con > 0 {
+        cac_nhom.push(con % 1000)
+        con = con / 1000
+    }
+    let don_vi: list[str] = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"]
+    let cau: list[str] = []
+    let mut i: int = cac_nhom.len() - 1
+    while i >= 0 {
+        let nhom: int = cac_nhom.get(i)
+        if nhom > 0 {
+            let tuc: str = doc_nhom(nhom, cau.len() == 0)
+            if i > 0 {
+                cau.push(tuc + " " + don_vi.get(i))
+            } else {
+                cau.push(tuc)
+            }
+        }
+        i = i - 1
+    }
+    return join(cau, " ")
+}
+
+fn main() -> int uses IO {
+    let a: list[str] = args()
+    if a.len() < 2 {
+        println("cach dung: doc-so <so> ...  (vi du: doc-so 15 1000001)")
+        return 1
+    }
+    let mut i: int = 1
+    while i < a.len() {
+        let so: str = a.get(i)
+        if so.starts_with("-") {
+            println(so + " -> trừ " + doc_so(int(so.slice(1, so.len()))))
+        } else {
+            println(so + " -> " + doc_so(int(so)))
+        }
+        i = i + 1
+    }
+    return 0
+}
