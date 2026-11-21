@@ -1,0 +1,27 @@
+# tim-tu.hls — "tim-dong" của Lệnh Việt, phiên bản Halis
+# In các dòng chứa từ khóa, kèm số dòng.
+# Dùng str.contains theo SPEC.md của halis-lang (mục phương thức chuỗi).
+
+fn main() -> int uses IO {
+    let a: list[str] = args()
+    if a.len() < 3 {
+        println("cach dung: tim-tu <file.txt> <tu_khoa>")
+        return 1
+    }
+    let content: str = read_file(a.get(1))
+    let keyword: str = a.get(2)
+    let lines: list[str] = content.split("\n")
+    let mut i: int = 0
+    let mut hits: int = 0
+    while i < lines.len() {
+        let line: str = lines.get(i)
+        if line.contains(keyword) {
+            hits = hits + 1
+            println((i + 1).to_str() + ": " + line)
+        }
+        i = i + 1
+    }
+    println("")
+    println("tim thay " + hits.to_str() + " dong chua '" + keyword + "' trong " + a.get(1))
+    return 0
+}

@@ -1,0 +1,43 @@
+# dem-tu.hls — "dem" của Lệnh Việt, phiên bản Halis
+# Khi Lệnh Việt gặp Halis: cùng một tinh thần, một ngôn ngữ khác.
+# Cú pháp học từ examples/ và SPEC.md của mhieuhonda/halis-lang (v1.0).
+# Chưa chạy qua compiler (chưa cài ở đây) — viết theo mẫu chuẩn, chờ bro review.
+
+fn dem_tu(content: str) -> int {
+    let words: list[str] = content.split(" ")
+    let mut i: int = 0
+    let mut n: int = 0
+    while i < words.len() {
+        if words.get(i).trim().len() > 0 {
+            n = n + 1
+        }
+        i = i + 1
+    }
+    return n
+}
+
+fn dem_dong_co_noi_dung(content: str) -> int {
+    let lines: list[str] = content.split("\n")
+    let mut i: int = 0
+    let mut n: int = 0
+    while i < lines.len() {
+        if lines.get(i).trim().len() > 0 {
+            n = n + 1
+        }
+        i = i + 1
+    }
+    return n
+}
+
+fn main() -> int uses IO {
+    let a: list[str] = args()
+    if a.len() < 2 {
+        println("cach dung: dem-tu <file.txt>")
+        return 1
+    }
+    let content: str = read_file(a.get(1))
+    println("ket qua cho " + a.get(1) + ":")
+    println("  so dong co noi dung: " + dem_dong_co_noi_dung(content).to_str())
+    println("  so tu (tách bởi khoảng trắng): " + dem_tu(content).to_str())
+    return 0
+}

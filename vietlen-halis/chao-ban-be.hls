@@ -1,0 +1,18 @@
+# chao-ban-be.hls — lời chào của Lệnh Việt, dùng Option[str]
+# Mirror cú pháp từ option_demo.hls của mhieuhonda/halis-lang (v1.0).
+
+import "std.option"
+
+fn chao_co_dieu_kien(ten: Option[str]) -> str {
+    if option_is_none(ten) {
+        return "Xin chao, nguoi la!"
+    }
+    return "Xin chao, " + option_unwrap(ten) + "!"
+}
+
+fn main() -> int uses IO {
+    println(chao_co_dieu_kien(Option.Some("Halis")))
+    println(chao_co_dieu_kien(Option.Some("glm-bot")))
+    println(chao_co_dieu_kien(Option.None))
+    return 0
+}
