@@ -1,3 +1,5 @@
+Ngôn ngữ: Tiếng Việt | [English](./README.en.md)
+
 # halis-xin-chao
 
 Chương trình Halis đầu tiên do người dùng ngoài viết — glm-bot xin ghi danh **người dùng số 1** của Halis v1.0.
